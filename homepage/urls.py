@@ -6,6 +6,6 @@ urlpatterns = [
     url(r'^clubs/$', views.club, name='club'),
     url(r'^register/', views.register,name='register'),
     # url(r'^login/$', auth_views.login,{'template_name':'homepage/LoginPage.html'}),
-    url(r'^logout/$', auth_views.logout,{'template_name':'homepage/logout.html'}),
+    url(r'^logout/$', auth_views.logout,{'template_name':'homepage/index.html'}),
     url(r'^login/', views.Login, name='Login'),
  ]

@@ -1,0 +1,169 @@
+.text-black{ color: black;}
+.text-blue{ color: blue;}
+.text-cyan{ color: cyan;}
+.text-red{ color: red;}
+.text-crimson{ color: crimson;}
+.text-IndianRed{ color: IndianRed;}
+.text-pink{ color: pink;}
+.text-grey{ color: grey;}
+.text-white{ color: white;}
+.text-purple{ color: #521341;}
+
+.bg-purple{ background-color: purple;}
+.bg-black{ background-color: black;}
+.bg-blue{ background-color: blue;}
+.bg-cyan{ background-color: cyan;}
+.bg-red{ background-color: red;}
+.bg-crimson{ background-color: crimson;}
+.bg-IndianRed{ background-color: IndianRed;}
+.bg-pink{ background-color: pink;}
+.bg-yellow {background-color: yellow;}
+.bg-RoyalBlue{ background-color: RoyalBlue;}
+.bg-SteelBlue{background-color: SteelBlue;}
+.bg-gray{background-color: #bbb;}
+.bg-dimGray{background-color: #999;}
+
+.b-1-black{ border: 1px solid black;}
+.b-1-blue{ border: 1px solid blue;}
+.b-1-purple{ border: 1px solid purple;}
+.b-1-red{ border: 1px solid red;}
+.b-1-cyan{ border: 1px solid cyan;}
+.b-1-yellow{ border: 1px solid yellow;}
+.b-1-green{ border: 1px solid green;}
+.b-1-white{ border: 1px solid white;}
+.b-2-black{ border: 2px solid black;}
+.b-2-blue{ border: 2px solid blue;}
+.b-2-purple{ border: 2px solid purple;}
+.b-2-red{ border: 2px solid red;}
+.b-2-cyan{ border: 2px solid cyan;}
+.b-2-yellow{ border: 2px solid yellow;}
+.b-2-green{ border: 2px solid green;}
+.b-2-white{ border: 2px solid white;}
+.b-3-black{ border: 3px solid black;}
+.b-3-blue{ border: 3px solid blue;}
+.b-3-purple{ border: 3px solid purple;}
+.b-3-red{ border: 3px solid red;}
+.b-3-cyan{ border: 3px solid cyan;}
+.b-3-yellow{ border: 3px solid yellow;}
+.b-3-green{ border: 3px solid green;}
+.b-3-white{ border: 3px solid white;}
+.b-4-black{ border: 4px solid black;}
+.b-4-blue{ border: 4px solid blue;}
+.b-4-purple{ border: 4px solid purple;}
+.b-4-red{ border: 4px solid red;}
+.b-4-cyan{ border: 4px solid cyan;}
+.b-4-yellow{ border: 4px solid yellow;}
+.b-4-green{ border: 4px solid green;}
+.b-4-white{ border: 4px solid white;}
+.b-5-black{ border: 5px solid black;}
+.b-5-blue{ border: 5px solid blue;}
+.b-5-purple{ border: 5px solid purple;}
+.b-5-red{ border: 5px solid red;}
+.b-5-cyan{ border: 5px solid cyan;}
+.b-5-yellow{ border: 5px solid yellow;}
+.b-5-green{ border: 5px solid green;}
+.b-5-white{ border: 5px solid white;}
+.b-6-black{ border: 6px solid black;}
+.b-6-blue{ border: 6px solid blue;}
+.b-6-purple{ border: 6px solid purple;}
+.b-6-red{ border: 6px solid red;}
+.b-6-cyan{ border: 6px solid cyan;}
+.b-6-yellow{ border: 6px solid yellow;}
+.b-6-green{ border: 6px solid green;}
+.b-6-white{ border: 6px solid white;}
+.b-7-black{ border: 7px solid black;}
+.b-7-blue{ border: 7px solid blue;}
+.b-7-purple{ border: 7px solid purple;}
+.b-7-red{ border: 7px solid red;}
+.b-7-cyan{ border: 7px solid cyan;}
+.b-7-yellow{ border: 7px solid yellow;}
+.b-7-green{ border: 7px solid green;}
+.b-7-white{ border: 7px solid white;}
+.b-10-black{ border: 10px solid black;}
+.b-10-blue{ border: 10px solid blue;}
+.b-10-purple{ border: 10px solid purple;}
+.b-10-red{ border: 10px solid red;}
+.b-10-cyan{ border: 10px solid cyan;}
+.b-10-yellow{ border: 10px solid yellow;}
+.b-10-green{ border: 10px solid green;}
+.b-10-white{ border: 10px solid white;}
+
+
+.font-10 { font-size: 10px; }
+.font-15 { font-size: 15px; }
+.font-20 { font-size: 20px; }
+.font-25 { font-size: 25px; }
+.font-22 { font-size: 22px; }
+.font-30 { font-size: 30px; }
+.font-35 { font-size: 35px; }
+.font-40 { font-size: 40px; }
+.font-23 { font-size: 23px; }
+.font-45 { font-size: 45px; }
+.font-50 { font-size: 50px; }
+
+.bt-1{ border-top: 1px solid black; }
+.bb-1{ border-bottom: 1px solid black; }
+.bt-2{ border-top: 2px solid black; }
+.bb-2{ border-bottom: 2px solid black; }
+.bt-3{ border-top: 3px solid black; }
+.bb-3{ border-bottom: 3px solid black; }
+.bt-4{ border-top: 4px solid black; }
+.bb-4{ border-bottom: 4px solid black; }
+.bt-5{ border-top: 5px solid black; }
+.bb-5{ border-bottom: 5px solid black; }
+
+.w-20 { width: 20%; } 
+ .h-20 { height: 20%; } 
+.w-25 { width: 25%; } 
+ .h-25 { height: 25%; } 
+.w-30 { width: 30%; } 
+ .h-30 { height: 30%; } 
+.w-35 { width: 35%; } 
+ .h-35 { height: 35%; } 
+.w-40 { width: 40%; } 
+ .h-40 { height: 40%; } 
+.w-45 { width: 45%; } 
+ .h-45 { height: 45%; } 
+.w-50 { width: 50%; } 
+ .h-50 { height: 50%; } 
+ .w-75 { width: 75%; } 
+ .h-75 { height: 75%; } 
+.w-80 { width: 80%; } 
+ .h-80 { height: 80%; } 
+ .h-85 { height: 85%; } 
+.w-90 { width: 90%; } 
+ .h-90 { height: 90%; } 
+.w-100 { width: 100%; } 
+ .h-100 { height: 100%; } 
+
+.ffRoboto{font-family: 'Roboto', sans-serif;}
+.ffZilla{font-family: 'Zilla Slab', serif;}
+.ffBellefair{font-family: 'Bellefair', serif;}
+.ffFresca{font-family: 'Fresca', sans-serif;}
+.ffGeorgia{font-family: 'Georgia', sans-serif;}
+.ffCursive{font-family: cursive;}
+.ffLobster{font-family: 'Lobster' , sans-serif;}
+.ffLemonada{font-family: 'Lemonada' ,sans-serif;}
+.ffGriffy{font-family: 'Griffy' ,sans-serif;}
+
+
+.fw600{ font-weight: 600; }
+.fw500{ font-weight: 500; }
+
+
+*{
+	padding: 0px;
+	margin: 0px;
+}
+#LogoutBtn:hover{
+	background-color: #C30000;
+}
+.quests{
+	 background-color:rgba(0,0,0,0);  outline: none;
+}
+
+.quests:hover{
+	background-color: Azure;
+}
+
+.bradius-5{ border-radius: 5%; }
