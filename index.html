@@ -20,6 +20,10 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 <link href="css/style.css" rel="stylesheet" type="text/css" media="all" />
 <link href="css/font-awesome.css" rel="stylesheet">
 <link href="css/easy-responsive-tabs.css" rel='stylesheet' type='text/css'/>
+<!-- new css -->
+<link href="line/red.css" rel="stylesheet">
+<!-- new css -->
+
 <!-- //for bootstrap working -->
 <link href="//fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i,800" rel="stylesheet">
 <link href='//fonts.googleapis.com/css?family=Lato:400,100,100italic,300,300italic,400italic,700,900,900italic,700italic' rel='stylesheet' type='text/css'>
@@ -237,7 +241,90 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 			</div>
 		</div>
 <!-- //Modal2 -->
+<!-- Modal3 -->
+		<div class="modal fade" id="myModal3" tabindex="-1" role="dialog">
+			<div class="modal-dialog">
+				<!-- Modal content-->
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal">&times;</button>
+					</div>
+						<div class="modal-body modal-body-sub_agile">
 
+							<div class="col-md-12 modal_body_left modal_body_left1">
+							<h3 class="agileinfo_sign">What is your<span> Passion</span></h3>
+						</div>
+
+						<div class="col-md-4 modal_body_left modal_body_left1">
+								<input type="checkbox">
+								<label>TECHNOLOGY</label>
+								<input type="checkbox">
+								<label>SPORTS</label>
+								<input type="checkbox">
+								<label>COMPUTER SCIENCE</label>
+								<input type="checkbox">
+								<label>TRAVEL</label>
+								<input type="checkbox">
+								<label>FOOD</label>
+								<input type="checkbox">
+								<label>FASHION</label>
+
+
+						<!-- <input type="submit" value="Submit"> -->
+						<div class="clearfix"></div>
+						<p><a href="#"></a></p>
+
+						</div>
+						<div class="col-md-4 modal_body_left modal_body_left1">
+
+
+								<input type="checkbox">
+								<label>BEAUTY</label>
+								<input type="checkbox">
+								<label>GAMES</label>
+								<input type="checkbox">
+								<label>MANAGEMENT</label>
+								<input type="checkbox">
+								<label>FINANCE</label>
+								<input type="checkbox">
+								<label>BUSINESS</label>
+
+								<br></br>
+
+
+						<input type="submit" value="Submit">
+						<div class="clearfix"></div>
+						<p><a href="#"></a></p>
+
+						</div>
+						<div class="col-md-4 modal_body_left modal_body_left1">
+
+
+								<input type="checkbox">
+								<label>EDUCATION</label>
+								<input type="checkbox">
+								<label>CELEBRITY</label>
+								<input type="checkbox">
+								<label>HISTORY</label>
+								<input type="checkbox">
+								<label>DESIGN</label>
+								<input type="checkbox">
+								<label>WEATHER</label>
+								<input type="checkbox">
+								<label>PHOTOGRAPHY</label>
+
+						<!-- <input type="submit" value="Submit"> -->
+						<div class="clearfix"></div>
+						<p><a href="#"></a></p>
+
+						</div>
+						<div class="clearfix"></div>
+					</div>
+				</div>
+				<!-- //Modal content-->
+			</div>
+		</div>
+<!-- //Modal3 -->
 <!-- banner -->
 	<div id="myCarousel" class="carousel slide" data-ride="carousel">
 		<!-- Indicators -->
@@ -887,6 +974,25 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 <!-- js -->
 <script type="text/javascript" src="js/jquery-2.1.4.min.js"></script>
 <!-- //js -->
+<!-- checkbox js -->
+<script src="js/icheck.js"></script>
+<script>
+$(document).ready(function(){
+  $('input').each(function(){
+    var self = $(this),
+      label = self.next(),
+      label_text = label.text();
+
+    label.remove();
+    self.iCheck({
+      checkboxClass: 'icheckbox_line-red',
+      radioClass: 'iradio_line-red',
+      insert: '<div class="icheck_line-icon"></div>' + label_text
+    });
+  });
+});
+</script>
+<!-- checkbox js -->
 <script src="js/modernizr.custom.js"></script>
 	<!-- Custom-JavaScript-File-Links -->
 	<!-- cart-js -->
