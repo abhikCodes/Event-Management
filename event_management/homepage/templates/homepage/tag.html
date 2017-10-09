@@ -1,0 +1,182 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Select your Tags</title>
+<link href="{% static 'css/_all.css' %}" rel="stylesheet" type="text/css" media="all" />
+<link href="{% static 'css/aero.css' %}" rel="stylesheet" type="text/css" media="all" />
+<link href="{% static 'css/blue.css' %}" rel="stylesheet" type="text/css" media="all" />
+<link href="{% static 'css/green.css' %}" rel="stylesheet" type='text/css' media="all">
+<link href="{% static 'css/grey.css' %}" rel='stylesheet' type='text/css' media="all"/>
+<link href="{% static 'css/orange.css' %}" rel="stylesheet" type="text/css" media="all" />
+<link href="{% static 'css/pink.css' %}" rel="stylesheet" type="text/css" media="all" />
+<link href="{% static 'css/purple.css' %}" rel="stylesheet" type="text/css" media="all" />
+<link href="{% static 'css/red.css' %}" rel="stylesheet" type="text/css" media="all" />
+<link href="{% static 'css/yellow.css' %}" rel="stylesheet" type="text/css" media="all" />
+<link href="{% static 'css/line.css' %}" rel="stylesheet" type="text/css" media="all" />
+
+<script type="text/javascript" src="{% static 'js/icheck.js' %}"></script>
+</head>
+<body>
+    <!--<div class="header" id="home">-->
+    <div class="container">
+        <ul>
+
+        <p>hello</p>
+        <p>welcome {{ user.username }}</p>
+        
+        <!--<div class="modal fade" id="myModal3" tabindex="-1" role="dialog">
+            <div class="modal-dialog">
+                 Modal content
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    </div>
+                
+                        <div class="modal-body modal-body-sub_agile">
+
+                            <div class="col-md-12 modal_body_left modal_body_left1">
+                            <h3 class="agileinfo_sign">What is your<span> Passion</span></h3>
+                        </div>
+
+                        <div class="col-md-4 modal_body_left modal_body_left1">
+                                <input type="checkbox">
+                                <label>TECHNOLOGY</label>
+                                <input type="checkbox">
+                                <label>SPORTS</label>
+                                <input type="checkbox">
+                                <label>COMPUTER SCIENCE</label>
+                                <input type="checkbox">
+                                <label>TRAVEL</label>
+                                <input type="checkbox">
+                                <label>FOOD</label>
+                                <input type="checkbox">
+                                <label>FASHION</label>
+
+
+                     
+                        <div class="clearfix"></div>
+                        <p><a href="#"></a></p>
+
+                        </div>
+                        <div class="col-md-4 modal_body_left modal_body_left1">
+
+
+                                <input type="checkbox">
+                                <label>BEAUTY</label>
+                                <input type="checkbox">
+                                <label>GAMES</label>
+                                <input type="checkbox">
+                                <label>MANAGEMENT</label>
+                                <input type="checkbox">
+                                <label>FINANCE</label>
+                                <input type="checkbox">
+                                <label>BUSINESS</label>
+
+                                <br></br>
+
+
+                        
+                        <div class="clearfix"></div>
+                        <p><a href="#"></a></p>
+
+                        </div>
+                        <div class="col-md-4 modal_body_left modal_body_left1">
+
+
+                                <input type="checkbox">
+                                <label>EDUCATION</label>
+                                <input type="checkbox">
+                                <label>CELEBRITY</label>
+                                <input type="checkbox">
+                                <label>HISTORY</label>
+                                <input type="checkbox">
+                                <label>DESIGN</label>
+                                <input type="checkbox">
+                                <label>WEATHER</label>
+                                <input type="checkbox">
+                                <label>PHOTOGRAPHY</label>
+
+                        <input type="submit" value="Submit"> 
+                        <div class="clearfix"></div>
+                        <p><a href="#"></a></p>
+
+                        </div>
+                        <div class="clearfix"></div>
+                    </div>
+                </div>
+            -->
+                <!-- //Modal content-->
+
+
+
+             <div class="container">
+                            <h3 >What is your<span> Passion</span></h3>
+                        </div>
+
+                        <div class="container">
+                            <form action="{% url 'sel_tag' %}" method="post">
+                                {% csrf_token %}
+                                <input type="checkbox" name="recommendations" value="TECHNOLOGY">
+                                <label>TECHNOLOGY</label>
+                                <input type="checkbox" name="recommendations" value="TECHNOLOGY">
+                                <label>SPORTS</label>
+                                <input type="checkbox" name="recommendations" value="TECHNOLOGY">
+                                <label>COMPUTER SCIENCE</label>
+                                <input type="checkbox" name="recommendations" value="TECHNOLOGY">
+                                <label>TRAVEL</label>
+                                <input type="checkbox" name="recommendations" value="TECHNOLOGY">
+                                <label>FOOD</label>
+                                <input type="checkbox" name="recommendations" value="TECHNOLOGY">
+                                <label>FASHION</label>
+
+                                <br></br>
+
+
+
+
+                                <input type="checkbox" name="recommendations" value="TECHNOLOGY">
+                                <label>BEAUTY</label>
+                                <input type="checkbox" name="recommendations" value="TECHNOLOGY">
+                                <label>GAMES</label>
+                                <input type="checkbox" name="recommendations" value="TECHNOLOGY">
+                                <label>MANAGEMENT</label>
+                                <input type="checkbox" name="recommendations" value="TECHNOLOGY">
+                                <label>FINANCE</label>
+                                <input type="checkbox" name="recommendations" value="TECHNOLOGY">
+                                <label>BUSINESS</label>
+
+                                <br></br>
+
+
+                        
+               
+
+
+                                <input type="checkbox" name="recommendations" value="TECHNOLOGY">
+                                <label>EDUCATION</label>
+                                <input type="checkbox" name="recommendations" value="TECHNOLOGY" >
+                                <label>CELEBRITY</label>
+                                <input type="checkbox" name="recommendations" value="TECHNOLOGY">
+                                <label>HISTORY</label>
+                                <input type="checkbox" name="recommendations" value="TECHNOLOGY">
+                                <label>DESIGN</label>
+                                <input type="checkbox" name="recommendations" value="TECHNOLOGY">
+                                <label>WEATHER</label>
+                                <input type="checkbox" name="recommendations" value="TECHNOLOGY">
+                                <label>PHOTOGRAPHY</label>
+
+                     <input type="submit"/ value="SUBMIT">
+                    </form>        
+   
+            </div>
+        
+    
+        
+    
+</div>
+
+
+
+</body>
+</html>
