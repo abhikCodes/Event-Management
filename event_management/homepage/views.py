@@ -145,22 +145,26 @@ def sel_tag(request):
 
 def club(request,clubname):
     print("clubname= ",clubname)
-    x = Clubs.objects.all()
-    for i in x:
-        print("Club=",i)
-    Reg_User_instance = Reg_User.objects.create(id=(len(x) + 1), Username=username, Email=email, Password=password)
-    if request.method == 'POST':
-        interest = request.POST
-        x = interest.getlist('recommendations')
-        print("x== ", x)
-        form = clubForm(request.POST)
-        if form.is_valid():
-            userObj = form.cleaned_data
-            print(userObj['club'])
+    # x = Clubs.objects.all()
+    x = Clubs.objects.filter(clubname=clubname.strip())
+    print("length of queryset= ",len(x))
+    print(x[0].clubname)
+
+    # for i in x:
+    #     print("Club=",i)
+    # Reg_User_instance = Reg_User.objects.create(id=(len(x) + 1), Username=username, Email=email, Password=password)
+    # if request.method == 'POST':
+    #     interest = request.POST
+    #     x = interest.getlist('recommendations')
+    #     print("x== ", x)
+    #     form = clubForm(request.POST)
+    #     if form.is_valid():
+    #         userObj = form.cleaned_data
+    #         print(userObj['club'])
 
     # clubName=request.club
     # print(clubName)
-    else:
-        return  render(
-            request, 'homepage/club.html', {}
-        )
+    # else:
+    return  render(
+        request, 'homepage/club.html', {"clubname":clubname }
+    )
