@@ -47,9 +47,11 @@ from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login
 from django.http import HttpResponseRedirect
 from django import forms
-from .forms import UserRegistrationForm, LoginForm
+from .forms import UserRegistrationForm, LoginForm, clubForm
 import json
-from .models import Reg_User
+from .models import Reg_User,Clubs
+
+
 
 # Create your views here.
 def home(request):
@@ -69,7 +71,14 @@ def register(request):
             username = userObj['username']
             email =  userObj['email']
             password =  userObj['password']
-            Reg_User_instance = Reg_User.objects.create(Username=username,Email=email,Password=password)
+            x=Reg_User.objects.all()
+            print(len(x))
+            # print(x['email'])
+            # print("X==",x," type= ",type(x))
+            # for i in x:
+            #     print(i.id)
+            #     print(i.Username)
+            Reg_User_instance = Reg_User.objects.create(id=(len(x)+1),Username=username,Email=email,Password=password)
             if not (User.objects.filter(username=username).exists() or User.objects.filter(email=email).exists()):
                 User.objects.create_user(username, email, password)
                 user = authenticate(username = username, password = password)
@@ -77,6 +86,7 @@ def register(request):
                 return HttpResponseRedirect('/tag')
             else:
                 raise forms.ValidationError('Looks like a username with that email or password already exists')
+
     else:
         form = UserRegistrationForm()
         form1 = LoginForm()
@@ -122,9 +132,35 @@ def sel_tag(request):
     interest = request.POST
     x=interest.getlist('recommendations')
     print("x== ",x)
+    y = Reg_User.objects.all()
+    print(len(y))
     if request.method == 'POST':
+
         return render(
-            request, 'homepage/sel_tag.html', {'interest':interest}
+            request, 'homepage/sel_tag.html', {'interest':x}
         )
     else:
         return "<h1>Fo</h1>"
+
+
+def club(request,clubname):
+    print("clubname= ",clubname)
+    x = Clubs.objects.all()
+    for i in x:
+        print("Club=",i)
+    Reg_User_instance = Reg_User.objects.create(id=(len(x) + 1), Username=username, Email=email, Password=password)
+    if request.method == 'POST':
+        interest = request.POST
+        x = interest.getlist('recommendations')
+        print("x== ", x)
+        form = clubForm(request.POST)
+        if form.is_valid():
+            userObj = form.cleaned_data
+            print(userObj['club'])
+
+    # clubName=request.club
+    # print(clubName)
+    else:
+        return  render(
+            request, 'homepage/club.html', {}
+        )

@@ -63,3 +63,11 @@ class LoginForm(forms.Form):
         password = self.cleaned_data.get('password')
         user = authenticate(username=username, password=password)
         return user
+
+
+class clubForm(forms.Form):
+    clubname = forms.CharField(
+        required = True,
+        label = 'clubname',
+        max_length = 32
+    )

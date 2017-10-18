@@ -6,4 +6,5 @@ class Reg_User(models.Model):
     Email = models.EmailField(max_length=32)
     Password= models.CharField(max_length=32)
  
-
+class Clubs(models.Model):
+    clubname=models.CharField(max_length=32)
