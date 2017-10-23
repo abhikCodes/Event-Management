@@ -78,7 +78,7 @@ def register(request):
             # for i in x:
             #     print(i.id)
             #     print(i.Username)
-            Reg_User_instance = Reg_User.objects.create(id=(len(x)+1),Username=username,Email=email,Password=password)
+            Reg_User_instance = Reg_User.objects.create(id=(len(x)+1),Username=username,Email=email,Password=password, interests="")
             if not (User.objects.filter(username=username).exists() or User.objects.filter(email=email).exists()):
                 User.objects.create_user(username, email, password)
                 user = authenticate(username = username, password = password)
@@ -124,23 +124,36 @@ def Login(request):
         print(form)
         return render(request, 'homepage/LoginPage.html', {'form' : form, 'form1':form1})
 def tag(request):
-
     return render(
         request, 'homepage/tag.html', {}
         )
+
 def sel_tag(request):
+    myElem=Reg_User.objects.all()
+    myElem=myElem[len(myElem)-1]
+    reqId=myElem.id
+    print("reqId=",reqId)
+
     interest = request.POST
     x=interest.getlist('recommendations')
     print("x== ",x)
-    y = Reg_User.objects.all()
-    print(len(y))
-    if request.method == 'POST':
+    entry=Reg_User.objects.get(id=reqId)
+    print("entry.id= ",entry.id)
+    tags=",".join(x)
+    print(tags)
+    entry.interests=tags
+    print(entry.interests)
+    entry.save()
 
-        return render(
-            request, 'homepage/sel_tag.html', {'interest':x}
-        )
-    else:
-        return "<h1>Fo</h1>"
+    # y = Reg_User.objects.all()
+    # print(len(y))
+    # if request.method == 'POST':
+
+    return render(
+        request, 'homepage/sel_tag.html', {'interest':x}
+    )
+    # else:
+    #     return "<h1>Fo</h1>"
 
 
 def club(request,clubname):
