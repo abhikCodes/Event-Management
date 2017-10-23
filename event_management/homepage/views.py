@@ -42,14 +42,14 @@ def tag(request):
         request, 'homepage/tag.html', {}
         )
 """
-from django.shortcuts import render
+from django.shortcuts import render,get_object_or_404
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login
 from django.http import HttpResponseRedirect
 from django import forms
 from .forms import UserRegistrationForm, LoginForm, clubForm
 import json
-from .models import Reg_User,Clubs
+from .models import Reg_User,Clubs,eve_detail
 
 
 
@@ -133,7 +133,6 @@ def sel_tag(request):
     myElem=myElem[len(myElem)-1]
     reqId=myElem.id
     print("reqId=",reqId)
-
     interest = request.POST
     x=interest.getlist('recommendations')
     print("x== ",x)
@@ -181,3 +180,9 @@ def club(request,clubname):
     return  render(
         request, 'homepage/club.html', {"clubname":clubname }
     )
+
+def events_detail(request, pk):
+    post = get_object_or_404(eve_detail, pk=pk)
+    return render(
+        request, 'homepage/events.html', {'post': post}
+        )

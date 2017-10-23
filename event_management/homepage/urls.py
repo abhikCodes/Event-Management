@@ -17,6 +17,7 @@ from django.contrib.auth import views as auth_views
 urlpatterns = [
     url(r'^$', views.home, name='home'),
     url(r'^clubs/(?P<clubname>[A-Za-z]{2,20})/$', views.club, name='club'),
+    url(r'^event/(?P<pk>\d+)/$', views.events_detail, name='events_detail'),
     url(r'^register/', views.register,name='register'),
     # url(r'^login/$', auth_views.login,{'template_name':'homepage/LoginPage.html'}),
     url(r'^logout/$', auth_views.logout,{'template_name':'homepage/index.html'}),
