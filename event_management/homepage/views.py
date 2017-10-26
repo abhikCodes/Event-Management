@@ -44,6 +44,8 @@ def tag(request):
 """
 from django.shortcuts import render,get_object_or_404
 from django.contrib.auth.models import User
+from django.core.mail import send_mail
+from django.conf import settings
 from django.contrib.auth import authenticate, login
 from django.http import HttpResponseRedirect
 from django import forms
@@ -71,6 +73,17 @@ def register(request):
             username = userObj['username']
             email =  userObj['email']
             password =  userObj['password']
+
+
+            subject = "Welcome to SNU club Management"
+            message = "Aa gye. Ab kat lo"
+            from_email = settings.EMAIL_HOST_USER
+            to_list = [email, settings.EMAIL_HOST_USER]
+
+            send_mail(subject,message,from_email,to_list, fail_silently=True )
+
+
+
             x=Reg_User.objects.all()
             print(len(x))
             # print(x['email'])
