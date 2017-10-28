@@ -57,53 +57,57 @@ from .models import Reg_User,Clubs,eve_detail
 
 # Create your views here.
 def home(request):
-    return render(
-        request, 'homepage/index.html', {}
-        )
+    form = UserRegistrationForm()
+    form1 = LoginForm()
+    return render(request, 'homepage/index.html', {'form': form, 'form1': form1})
+
 def club(request):
     return render(
         request, 'homepage/clubs.html',{}
         )    
 
 def register(request):
+    print("Halo ! Let's Play...")
     if request.method == 'POST':
         form = UserRegistrationForm(request.POST)
         if form.is_valid():
             userObj = form.cleaned_data
+            name = userObj['name']
             username = userObj['username']
             email =  userObj['email']
             password =  userObj['password']
+            confirm = userObj['confirmpass']
+            print("Username and password and confirmpassword is as follows:- ", username,password,confirm)
+            if(password==confirm):
+                subject = "Welcome to SNU club Management"
+                message = "Welcome to the Event Management System for SNU. Let's put an end to the frustating spam emails. Welcome to an all new experience of getting notified about the howabouts at SNU."
+                from_email = settings.EMAIL_HOST_USER
+                to_list = [email, settings.EMAIL_HOST_USER]
+                send_mail(subject,message,from_email,to_list )
+                x=Reg_User.objects.all()
+                print(len(x))
+                # print(x['email'])
+                # print("X==",x," type= ",type(x))
+                # for i in x:
+                #     print(i.id)
+                #     print(i.Username)
 
-
-            subject = "Welcome to SNU club Management"
-            message = "Aa gye. Ab kat lo"
-            from_email = settings.EMAIL_HOST_USER
-            to_list = [email, settings.EMAIL_HOST_USER]
-
-            send_mail(subject,message,from_email,to_list, fail_silently=True )
-
-
-
-            x=Reg_User.objects.all()
-            print(len(x))
-            # print(x['email'])
-            # print("X==",x," type= ",type(x))
-            # for i in x:
-            #     print(i.id)
-            #     print(i.Username)
-            Reg_User_instance = Reg_User.objects.create(id=(len(x)+1),Username=username,Email=email,Password=password, interests="")
-            if not (User.objects.filter(username=username).exists() or User.objects.filter(email=email).exists()):
-                User.objects.create_user(username, email, password)
-                user = authenticate(username = username, password = password)
-                # login(request, user)
-                return HttpResponseRedirect('/tag')
+                print(username, email)
+                if not (User.objects.filter(username=username).exists() or User.objects.filter(email=email).exists()):
+                    Reg_User_instance = Reg_User.objects.create(id=len(x) + 1, Name=name, Username=username,
+                                                                Email=email, Password=password, interests="")
+                    User.objects.create_user(username, email, password)
+                    user = authenticate(username = username, password = password)
+                    # login(request, user)
+                    return HttpResponseRedirect('/tag')
+                else:
+                    raise forms.ValidationError('Looks like a username with that email or password already exists')
             else:
-                raise forms.ValidationError('Looks like a username with that email or password already exists')
-
+                raise forms.ValidationError('Password not confirmed.')
     else:
         form = UserRegistrationForm()
         form1 = LoginForm()
-    return render(request, 'homepage/LoginPage.html', {'form' : form, 'form1':form1})           
+    return render(request, 'homepage/tag.html', {'form' : form, 'form1':form1})
 
 def Login(request):
     # form = LoginForm(request.POST or None)
@@ -119,12 +123,21 @@ def Login(request):
     # return render(request, 'enter.html', {'login_form': form })
     if request.method == 'POST':
         form = LoginForm(request.POST)
+        print("XYZ")
+        print(form)
+        print(form.is_valid())
+        # print(form.cleaned_data['email'])
+        # print(form.cleaned_data['password'])
+        # user = authenticate(email=form.cleaned_data['email'], password=form.cleaned_data['password'])
+        # print("user===", user)
+        # login(request, user)
         if form.is_valid():
             userObj = form.cleaned_data
             username = userObj['username']
+            # email = userObj['email']
             password =  userObj['password']
-            print("Username and password is as follows:- ", username,password)
-            user = authenticate(username = username, password = password)
+            # print(email,password)
+            user = authenticate(username=username , password = password)
             print("user===",user)
             login(request, user)
             return HttpResponseRedirect('/')
@@ -161,9 +174,11 @@ def sel_tag(request):
     # print(len(y))
     # if request.method == 'POST':
 
-    return render(
-        request, 'homepage/sel_tag.html', {'interest':x}
-    )
+    return HttpResponseRedirect("/")
+
+    # return render(
+    #     request, 'homepage/index.html', {'interest':x}
+    # )
     # else:
     #     return "<h1>Fo</h1>"
 
