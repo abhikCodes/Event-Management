@@ -94,3 +94,11 @@ class clubForm(forms.Form):
         label = 'clubname',
         max_length = 32
     )
+
+
+class ForgotPassForm(form.Form):
+    email = forms.EmailField(
+        required=True,
+        label='Email',
+        max_length=32,
+    )

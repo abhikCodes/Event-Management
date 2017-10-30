@@ -49,7 +49,7 @@ from django.conf import settings
 from django.contrib.auth import authenticate, login
 from django.http import HttpResponseRedirect
 from django import forms
-from .forms import UserRegistrationForm, LoginForm, clubForm
+from .forms import UserRegistrationForm, LoginForm, clubForm, ForgotPassForm
 import json
 from .models import Reg_User,Clubs,eve_detail
 
@@ -65,6 +65,22 @@ def club(request):
     return render(
         request, 'homepage/clubs.html',{}
         )    
+
+def ForgotPass(request):
+    print("Halo ! Bhool Gya Password...")
+    if request.method == 'POST':
+        form = ForgotPassForm(request.POST)
+        if form.is_valid():
+                subject = "Welcome to SNU club Management"
+                message = "Welcome to the Event Management System for SNU. Let's put an end to the frustating spam emails. Welcome to an all new experience of getting notified about the howabouts at SNU."
+                from_email = settings.EMAIL_HOST_USER
+                to_list = [email, settings.EMAIL_HOST_USER]
+                send_mail(subject,message,from_email,to_list )
+    else:
+        form = ForgotPassForm()
+        return render(
+            request, 'homepage/index.html',{"form": form}
+        )
 
 def register(request):
     print("Halo ! Let's Play...")
