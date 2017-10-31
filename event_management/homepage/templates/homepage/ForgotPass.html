@@ -6,11 +6,12 @@
 </head>
 <body>
 <h1>Forgot Your Password </h1>
-    <form action="/forgotpass" method="post">
+    <form action="/forgotpass/" method="post">
         {% csrf_token %}
          {% for field in form %}
             {{ field }}
         {% endfor %}
+        <input type="submit" value="Submit">
     </form>
 </body>
 </html>

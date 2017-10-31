@@ -19,7 +19,7 @@ urlpatterns = [
     url(r'^clubs/(?P<clubname>[A-Za-z]{2,20})/$', views.club, name='club'),
     url(r'^event/(?P<pk>\d+)/$', views.events_detail, name='events_detail'),
     url(r'^register/', views.register,name='register'),
-    url(r'^forgotpass/', views.ForgotPass, name='ForgotPassword'),
+    url(r'^forgotpass/', views.ForgotPass, name='ForgotPass'),
     # url(r'^login/$', auth_views.login,{'template_name':'homepage/LoginPage.html'}),
     # url(r'^logout/$', auth_views.logout, {'template_name':'homepage/index.html'}),
     url(r'^logout/$', auth_views.logout, {'next_page': '/'}),

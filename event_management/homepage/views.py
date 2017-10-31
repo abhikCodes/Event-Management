@@ -50,9 +50,10 @@ from django.contrib.auth import authenticate, login
 from django.http import HttpResponseRedirect
 from django import forms
 from .forms import UserRegistrationForm, LoginForm, clubForm, ForgotPassForm
-import json
+import json,os
 from .models import Reg_User,Clubs,eve_detail
 from django.core.files.storage import FileSystemStorage
+from django.template import loader
 
 
 # Create your views here.
@@ -64,24 +65,38 @@ def home(request):
 def club(request):
     return render(
         request, 'homepage/clubs.html',{}
-        )    
+        )
 
 
 def ForgotPass(request):
     print("Halo ! Bhool Gya Password...")
     if request.method == 'POST':
         form = ForgotPassForm(request.POST)
+        print(form.is_valid())
         if form.is_valid():
-                subject = "Welcome to SNU club Management"
-                message = "Welcome to the Event Management System for SNU. Let's put an end to the frustating spam emails. Welcome to an all new experience of getting notified about the howabouts at SNU."
-                from_email = settings.EMAIL_HOST_USER
-                to_list = [email, settings.EMAIL_HOST_USER]
-                send_mail(subject,message,from_email,to_list )
+            subject = "Password Reset for SNU club Management"
+            message = "Password Reset"
+            from_email = settings.EMAIL_HOST_USER
+            email = form['email'].value()
+            to_list = [email, settings.EMAIL_HOST_USER]
+            print("Email Address == ",email)
+            html_message = loader.render_to_string(
+                '/media/shubham/New Volume1/event_management/event_management/homepage/templates/homepage/forgotPassEmail.html',
+                {
+                    'linkTosite': 'www.eventManagement.com/forgotpass',
+                }
+            )
+            send_mail(subject,message,from_email,to_list,html_message=html_message)
+        return HttpResponseRedirect("/")
+        # return render(
+        #     request, 'homepage/index.html',{"form": form}
+        # )
     else:
         form = ForgotPassForm()
         return render(
-            request, 'homepage/index.html',{"form": form}
+            request, 'homepage/ForgotPass.html',{"form": form}
         )
+
 
 
 
@@ -102,7 +117,15 @@ def register(request):
                 message = "Welcome to the Event Management System for SNU. Let's put an end to the frustating spam emails. Welcome to an all new experience of getting notified about the howabouts at SNU."
                 from_email = settings.EMAIL_HOST_USER
                 to_list = [email, settings.EMAIL_HOST_USER]
-                send_mail(subject,message,from_email,to_list )
+                print(os.getcwd())
+                html_message = loader.render_to_string(
+                    '/media/shubham/New Volume1/event_management/event_management/homepage/templates/homepage/email_template.html',
+                    {
+                        'user_name': username,
+                        'subject': 'Thank you for registering with us '+username+' \n You will now be recieving Notifications for howabouts at SNU in an all new Way. Goodbye to the spam mails. \n Thanks for registering. Have a nice day!!',
+                        'linkTosite': 'www.google.com',
+                    }
+                )
                 x=Reg_User.objects.all()
                 print(len(x))
                 # print(x['email'])
@@ -110,7 +133,6 @@ def register(request):
                 # for i in x:
                 #     print(i.id)
                 #     print(i.Username)
-
                 print(username, email)
                 if not (User.objects.filter(username=username).exists() or User.objects.filter(email=email).exists()):
                     Reg_User_instance = Reg_User.objects.create(id=len(x) + 1, Name=name, Username=username,
@@ -118,6 +140,7 @@ def register(request):
                     User.objects.create_user(username, email, password)
                     user = authenticate(username = username, password = password)
                     # login(request, user)
+                    send_mail(subject, message, from_email, to_list, fail_silently=True, html_message=html_message)
                     return HttpResponseRedirect('/tag')
                 else:
                     raise forms.ValidationError('Looks like a username with that email or password already exists')
