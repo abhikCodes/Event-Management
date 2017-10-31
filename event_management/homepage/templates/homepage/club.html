@@ -110,7 +110,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 							<ul class="rslides callbacks callbacks1" id="slider4">
 								<li>
 									<div class="agileits-banner-info">
-										<h3>{{clubname}}</h3>
+										<h3>{{x.clubname}}</h3>
 										<p>Etiam ut <maxi></maxi>mus mauris, eu pretium neque. Donec nibh lectus, blandit id metus non, bibendum dictum quam.</p>
 										<div class="w3-button">
 											<div class="w3ls-button">
@@ -159,7 +159,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 			</div>
 			<div class="w3l-welcome-grids">
 				<div class="col-md-5 w3ls-welcome-left">
-					<img src="images/4.jpg" alt="" />
+					<img src="{{x.image}}" alt="" />
 				</div>
 				<div class="col-md-7 w3ls-welcome-right">
 					<h4>Morbi vestibulum odio eget turpis aliquet dictum</h4>
@@ -228,8 +228,8 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 							{% for i in eventsConducted %}
 								<li><a href="#" data-toggle="modal" data-target="#myModal"><i class="fa fa-arrow-circle-right" aria-hidden="true"></i>{{i.eventName}}</a></li>
 							{% endfor %}
-							<li><a href="/event/1/" data-toggle="modal" data-target="#myModal"><i class="fa fa-arrow-circle-right" aria-hidden="true"></i> Donec tempor odio vitae.</a></li>
-							<li><a href="#" data-toggle="modal" data-target="#myModal"><i class="fa fa-arrow-circle-right" aria-hidden="true"></i> Phasellus gravida mi dui. </a></li>
+							<li><a href="/event/1/" data-toggle="modal" ><i class="fa fa-arrow-circle-right" aria-hidden="true"></i> Donec tempor odio vitae.</a></li>
+							<li><a href="/event/2/" ><i class="fa fa-arrow-circle-right" aria-hidden="true"></i> Phasellus gravida mi dui. </a></li>
 							<li><a href="#" data-toggle="modal" data-target="#myModal"><i class="fa fa-arrow-circle-right" aria-hidden="true"></i> Sitid auctor donec neque.</a></li>
 							<li><a href="#" data-toggle="modal" data-target="#myModal"><i class="fa fa-arrow-circle-right" aria-hidden="true"></i> Lorem ipsum dolor sit amet.</a></li>
 							<li><a href="#" data-toggle="modal" data-target="#myModal"><i class="fa fa-arrow-circle-right" aria-hidden="true"></i> Donec tempor odio vitae.</a></li>

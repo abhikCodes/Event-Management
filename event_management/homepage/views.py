@@ -42,7 +42,7 @@ def tag(request):
         request, 'homepage/tag.html', {}
         )
 """
-from django.shortcuts import render,get_object_or_404
+from django.shortcuts import render,get_object_or_404,render_to_response
 from django.contrib.auth.models import User
 from django.core.mail import send_mail
 from django.conf import settings
@@ -52,7 +52,7 @@ from django import forms
 from .forms import UserRegistrationForm, LoginForm, clubForm, ForgotPassForm
 import json
 from .models import Reg_User,Clubs,eve_detail
-
+from django.core.files.storage import FileSystemStorage
 
 
 # Create your views here.
@@ -65,6 +65,7 @@ def club(request):
     return render(
         request, 'homepage/clubs.html',{}
         )    
+
 
 def ForgotPass(request):
     print("Halo ! Bhool Gya Password...")
@@ -81,6 +82,8 @@ def ForgotPass(request):
         return render(
             request, 'homepage/index.html',{"form": form}
         )
+
+
 
 def register(request):
     print("Halo ! Let's Play...")
@@ -200,33 +203,65 @@ def sel_tag(request):
 
 
 def club(request,clubname):
-    print("clubname= ",clubname)
-    # x = Clubs.objects.all()
-    x = Clubs.objects.filter(clubname=clubname.strip())
-    print("length of queryset= ",len(x))
-    print(x[0].clubname)
-
-    # for i in x:
-    #     print("Club=",i)
-    # Reg_User_instance = Reg_User.objects.create(id=(len(x) + 1), Username=username, Email=email, Password=password)
-    # if request.method == 'POST':
-    #     interest = request.POST
-    #     x = interest.getlist('recommendations')
-    #     print("x== ", x)
-    #     form = clubForm(request.POST)
-    #     if form.is_valid():
-    #         userObj = form.cleaned_data
-    #         print(userObj['club'])
-
-    # clubName=request.club
-    # print(clubName)
-    # else:
+    #print("clubname= ",clubname)
+    #x = Clubs.objects.all()
+    #x = Clubs.objects.filter(clubname=clubname.strip())
+    x = get_object_or_404(Clubs,clubname=clubname.strip())
+    #print(x[0].id)
+    #print(x[0].clubname)
+    #print("length of queryset= ",len(x))
+    print("DETAILS RETRIEVED=====", x)
     return  render(
-        request, 'homepage/club.html', {"clubname":clubname }
+        request, 'homepage/club.html', {"x":x}
     )
+#
+# def club(request,clubname):
+#     print("clubname= ",clubname)
+#     # x = Clubs.objects.all()
+#     x = Clubs.objects.filter(clubname=clubname.strip())
+#     print("length of queryset= ",len(x))
+#     print(x[0].clubname)
+#
+#     # for i in x:
+#     #     print("Club=",i)
+#     # Reg_User_instance = Reg_User.objects.create(id=(len(x) + 1), Username=username, Email=email, Password=password)
+#     # if request.method == 'POST':
+#     #     interest = request.POST
+#     #     x = interest.getlist('recommendations')
+#     #     print("x== ", x)
+#     #     form = clubForm(request.POST)
+#     #     if form.is_valid():
+#     #         userObj = form.cleaned_data
+#     #         print(userObj['club'])
+#
+#     # clubName=request.club
+#     # print(clubName)
+#     # else:
+#     return  render(
+#         request, 'homepage/club.html', {"clubname":clubname }
+#     )
 
 def events_detail(request, pk):
     post = get_object_or_404(eve_detail, pk=pk)
     return render(
         request, 'homepage/events.html', {'post': post}
         )
+
+
+def simple_upload(request):
+    if request.method == 'POST' and request.FILES['myfile']:
+        myfile = request.FILES['myfile']
+        clubname= request.POST['clubname']
+        print("Club Name = ",clubname)
+        fs = FileSystemStorage()
+        filename = fs.save(myfile.name, myfile)
+        uploaded_file_url = fs.url(filename)
+        x = Clubs.objects.get(clubname=clubname.strip())
+        print (x.image)
+        x.image=uploaded_file_url
+        x.save()
+
+        return render(request, 'homepage/club_admin.html', {
+            'uploaded_file_url': uploaded_file_url
+        })
+    return render(request, 'homepage/club_admin.html')
