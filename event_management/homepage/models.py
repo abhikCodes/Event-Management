@@ -39,3 +39,4 @@ class tag(models.Model):
     Tag_Name = models.CharField(max_length=32)
     Club_Linked= models.CharField(max_length=3200, default="")
     UserSubscribed=models.CharField(max_length=3200, default="")
+

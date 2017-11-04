@@ -49,7 +49,7 @@ from django.conf import settings
 from django.contrib.auth import authenticate, login
 from django.http import HttpResponseRedirect
 from django import forms
-from .forms import UserRegistrationForm, LoginForm, clubForm, ForgotPassForm
+from .forms import UserRegistrationForm, LoginForm, clubForm, ForgotPassForm, ChangePassForm
 import json,os
 from .models import Reg_User,Clubs,eve_detail
 from django.core.files.storage import FileSystemStorage
@@ -65,6 +65,11 @@ def home(request):
 def club(request):
     return render(
         request, 'homepage/clubs.html',{}
+        )
+
+def unauthentic(request):
+    return render(
+        request, 'homepage/unauthentic.html',{}
         )
 
 
@@ -97,6 +102,40 @@ def ForgotPass(request):
             request, 'homepage/ForgotPass.html',{"form": form}
         )
 
+def ChangePass(request):
+    if not request.user.is_authenticated():
+        return HttpResponseRedirect("/unauthenticated")
+    print("Halo ! Bhool Gya Password in change pass...")
+    if request.method == 'POST':
+        form = ChangePassForm(request.POST or None)
+        print(form.is_valid())
+        context={
+            'form': form,
+        }
+        if form.is_valid():
+            # instance = form.save()
+            userObj= form.cleaned_data
+            print(userObj)
+            password = userObj['password']
+            confirmPass= userObj['confirm']
+            print("password= ",password, "\n Confirm Password = ",confirmPass)
+            if(password == confirmPass):
+                print("user.username= ",request.user.username)
+                x = Reg_User.objects.get(Username=request.user.username.strip())
+                print(type(x))
+                x.Password=password
+                x.save()
+            else:
+                raise forms.ValidationError("Passwords do not match")
+        return HttpResponseRedirect("/")
+        # return render(
+        #     request, 'homepage/index.html',{"form": form}
+        # )
+    else:
+        form = ChangePassForm()
+        return render(
+            request, 'homepage/changePass.html',{"form": form}
+        )
 
 
 
@@ -288,3 +327,40 @@ def simple_upload(request):
             'uploaded_file_url': uploaded_file_url
         })
     return render(request, 'homepage/club_admin.html')
+
+
+def user_profile(request):
+    user = request.user
+    print(user)
+    post = get_object_or_404(Reg_User, Username=user)
+    l = post.interests.split(',')
+    print(l)
+    return render(
+        request, 'homepage/profile.html', {'post': post}
+    )
+    # post = get_object_or_404(Reg_User, pk=pk)
+    # return render(
+    #   request, 'homepage/profile.html', {'post': post}
+    #   )
+
+
+def edit_tag(request):
+    user = request.user
+    print(user)
+    post = get_object_or_404(Reg_User, Username=user)
+    if request.method == "POST":
+        interest = request.POST
+        x = interest.getlist('recommendations')
+        print("x== ", x)
+        tags = ",".join(x)
+        print("Selected tags:- ", tags)
+        post.interests = tags
+        print(post.interests)
+        post.save()
+        return HttpResponseRedirect('/profile')
+    else:
+        # print("disajdiasjdasd ais dias aso d")
+        l = post.interests.split(',')
+        taglist = ["TECHNOLOGY", "Sport", "Computer Science", "Travel"]
+
+        return render(request, 'homepage/tag.html', {"l": l, "taglist": taglist})

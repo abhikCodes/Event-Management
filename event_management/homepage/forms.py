@@ -101,3 +101,23 @@ class ForgotPassForm(forms.Form):
         label='Email',
         max_length=32,
     )
+
+class ChangePassForm(forms.Form):
+
+    password = forms.CharField(
+        required=True,
+        label='New Password',
+        max_length=32,
+        widget=forms.PasswordInput(),
+        # blank=False,
+        # null=False,
+    )
+
+    confirm = forms.CharField(
+        required=True,
+        label='Confirm New Password',
+        max_length=32,
+        widget=forms.PasswordInput(),
+        # blank=False,
+        # null=False,
+    )
