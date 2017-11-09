@@ -54,23 +54,59 @@ import json,os
 from .models import Reg_User,Clubs,eve_detail
 from django.core.files.storage import FileSystemStorage
 from django.template import loader
+from passlib.hash import pbkdf2_sha256
+from homepage.mailer import Mailer
+from PIL import Image
+import os
+import io
 
+def compress(original_file, max_size, scale):
+    # path=os.path.join(os.getcwd(),original_file)
+    # print("Path to be appended:- ",path)
+    original_file="."+original_file
+    assert(0.0 < scale < 1.0)
+    orig_image = Image.open(original_file)
+    cur_size = orig_image.size
+
+    while True:
+        cur_size = (int(cur_size[0] * scale), int(cur_size[1] * scale))
+        resized_file = orig_image.resize(cur_size, Image.ANTIALIAS)
+
+        with io.BytesIO() as file_bytes:
+            resized_file.save(file_bytes, optimize=True, quality=95, format='jpeg')
+
+            if file_bytes.tell() <= max_size:
+                file_bytes.seek(0, 0)
+                with open(original_file, 'wb') as f_output:
+                    f_output.write(file_bytes.read())
+                break
+        print(os.path.getsize(original_file))
 
 # Create your views here.
 def home(request):
     form = UserRegistrationForm()
     form1 = LoginForm()
+    mail = Mailer()
+    username=request.user.username
+    mail.send_messages(subject='My App account verification',
+                       template='homepage/email_template.html',
+                       context={ 'user_name': username,
+                        'subject': 'Thank you for registering with us '+username+' \n You will now be recieving Notifications for howabouts at SNU in an all new Way. Goodbye to the spam mails. \n Thanks for registering. Have a nice day!!',
+                        'linkTosite': 'www.google.com',},
+                       to_emails=["sa126@snu.edu.in","ads@aopsd.sopd"])
+
     return render(request, 'homepage/index.html', {'form': form, 'form1': form1})
 
-def club(request):
-    return render(
-        request, 'homepage/clubs.html',{}
-        )
+# def club(request):
+#     return render(
+#         request, 'homepage/clubs.html',{}
+#         )
 
 def unauthentic(request):
     return render(
         request, 'homepage/unauthentic.html',{}
         )
+
 
 
 def ForgotPass(request):
@@ -148,7 +184,7 @@ def register(request):
             name = userObj['name']
             username = userObj['username']
             email =  userObj['email']
-            password =  userObj['password']
+            password =userObj['password']
             confirm = userObj['confirmpass']
             print("Username and password and confirmpassword is as follows:- ", username,password,confirm)
             if(password==confirm):
@@ -158,15 +194,15 @@ def register(request):
                 to_list = [email, settings.EMAIL_HOST_USER]
                 print(os.getcwd())
                 html_message = loader.render_to_string(
-                    '/media/shubham/New Volume1/event_management/event_management/homepage/templates/homepage/email_template.html',
+                    '/media/shubham/New Volume/event_management/event_management/homepage/templates/homepage/email_template.html',
                     {
                         'user_name': username,
                         'subject': 'Thank you for registering with us '+username+' \n You will now be recieving Notifications for howabouts at SNU in an all new Way. Goodbye to the spam mails. \n Thanks for registering. Have a nice day!!',
                         'linkTosite': 'www.google.com',
                     }
                 )
-                x=Reg_User.objects.all()
-                print(len(x))
+                x=Reg_User.objects.last()
+                # print(len(x))
                 # print(x['email'])
                 # print("X==",x," type= ",type(x))
                 # for i in x:
@@ -174,7 +210,7 @@ def register(request):
                 #     print(i.Username)
                 print(username, email)
                 if not (User.objects.filter(username=username).exists() or User.objects.filter(email=email).exists()):
-                    Reg_User_instance = Reg_User.objects.create(id=len(x) + 1, Name=name, Username=username,
+                    Reg_User_instance = Reg_User.objects.create(id=x.id + 1, Name=name, Username=username,
                                                                 Email=email, Password=password, interests="")
                     User.objects.create_user(username, email, password)
                     user = authenticate(username = username, password = password)
@@ -216,7 +252,7 @@ def Login(request):
             userObj = form.cleaned_data
             username = userObj['username']
             # email = userObj['email']
-            password =  userObj['password']
+            password = userObj['password']
             # print(email,password)
             user = authenticate(username=username , password = password)
             print("user===",user)
@@ -229,15 +265,16 @@ def Login(request):
         form1 = LoginForm()
         # form = LoginForm()
         print(form)
-        return render(request, 'homepage/LoginPage.html', {'form' : form, 'form1':form1})
+        return render(request, 'homepage/LoginPage.html', {'form' : form, 'form1':form1 })
+
 def tag(request):
     return render(
         request, 'homepage/tag.html', {}
         )
 
 def sel_tag(request):
-    myElem=Reg_User.objects.all()
-    myElem=myElem[len(myElem)-1]
+    myElem=Reg_User.objects.last()
+    # myElem=myElem[len(myElem)-1]
     reqId=myElem.id
     print("reqId=",reqId)
     interest = request.POST
@@ -265,6 +302,8 @@ def sel_tag(request):
 
 
 def club(request,clubname):
+    if not request.user.is_authenticated():
+        return HttpResponseRedirect("/unauthenticated")
     #print("clubname= ",clubname)
     #x = Clubs.objects.all()
     #x = Clubs.objects.filter(clubname=clubname.strip())
@@ -311,25 +350,73 @@ def events_detail(request, pk):
 
 
 def simple_upload(request):
+    if not request.user.is_authenticated():
+        return HttpResponseRedirect("/unauthenticated")
+    else:
+        print(request.user.username)
+        x=get_object_or_404(Reg_User,Username=request.user.username)
+        # print(x)
+        # print(x.cl_id)
+        if(x.cl_id == 0 or x.cl_id == ""):
+            return render(
+                request, 'homepage/AdminRights.html'
+            )
     if request.method == 'POST' and request.FILES['myfile']:
         myfile = request.FILES['myfile']
-        clubname= request.POST['clubname']
-        print("Club Name = ",clubname)
+        a= request.POST['name']
+        b= request.POST['clubname']
+        c= request.POST['Venue']
+        d= request.POST['Date']
+        e= request.POST['Time']
+        f= request.POST['email']
+        g= request.POST['selector1']
+        h= request.POST['desc']
+        i= request.POST['Guest']
+        print(a,b,c,d,e,f,g,h,i)
+        xa=eve_detail.objects.last().id
+        #print("Club Name = ",clubname)
         fs = FileSystemStorage()
         filename = fs.save(myfile.name, myfile)
+        # compress(filename,2097152,0.9)
+        print("filename= ",filename)
         uploaded_file_url = fs.url(filename)
-        x = Clubs.objects.get(clubname=clubname.strip())
-        print (x.image)
-        x.image=uploaded_file_url
-        x.save()
+        print("uploaded_file_url= ",uploaded_file_url)
+        compress(uploaded_file_url,2097152,0.9)
+        Eve_Detail_instance = eve_detail.objects.create(id=xa+1,Name=a,Club_Name=b,Description=h,Email=f,Venue=c,poster=uploaded_file_url,time=e,date=d,HostSpeakers=i,interests=g)
+        #x = Clubs.objects.get(clubname=clubname.strip())
+        #print (x.image)
+        #x.image=uploaded_file_url
+        #x.save()
 
-        return render(request, 'homepage/club_admin.html', {
+        return render(request, 'homepage/club_admin2.html', {
             'uploaded_file_url': uploaded_file_url
         })
-    return render(request, 'homepage/club_admin.html')
+    return render(request, 'homepage/club_admin2.html')
+
+# def simple_upload(request):
+#     if not request.user.is_authenticated():
+#         return HttpResponseRedirect("/unauthenticated")
+#     if request.method == 'POST' and request.FILES['myfile']:
+#         myfile = request.FILES['myfile']
+#         clubname= request.POST['clubname']
+#         print("Club Name = ",clubname)
+#         fs = FileSystemStorage()
+#         filename = fs.save(myfile.name, myfile)
+#         uploaded_file_url = fs.url(filename)
+#         x = Clubs.objects.get(clubname=clubname.strip())
+#         print (x.image)
+#         x.image=uploaded_file_url
+#         x.save()
+#
+#         return render(request, 'homepage/club_admin.html', {
+#             'uploaded_file_url': uploaded_file_url
+#         })
+#     return render(request, 'homepage/club_admin.html')
 
 
 def user_profile(request):
+    if not request.user.is_authenticated():
+        return HttpResponseRedirect("/unauthenticated")
     user = request.user
     print(user)
     post = get_object_or_404(Reg_User, Username=user)
@@ -345,6 +432,8 @@ def user_profile(request):
 
 
 def edit_tag(request):
+    if not request.user.is_authenticated():
+        return HttpResponseRedirect("/unauthenticated")
     user = request.user
     print(user)
     post = get_object_or_404(Reg_User, Username=user)
@@ -364,3 +453,19 @@ def edit_tag(request):
         taglist = ["TECHNOLOGY", "Sport", "Computer Science", "Travel"]
 
         return render(request, 'homepage/tag.html', {"l": l, "taglist": taglist})
+
+
+def customemail(request):
+    # post = get_object_or_404(Clubs, clubname="snuphoria")
+
+    # post = Clubs.objects.filter(clubname__iexact="snuphoria")
+    # print(post)
+    # print(type(post))
+    # print(post.Description)
+    # print(len(post))
+    # print(request.user.username)
+    if not (request.user.is_authenticated and request.user.cl_id!=0):
+        return render(request, 'homepage/AdminRights.html', {})
+    else:
+        if request.method=="POST":
+            pass

@@ -39,13 +39,13 @@ class UserRegistrationForm(forms.Form):
     password = forms.CharField(
         required = True,
         label = 'Password',
-        max_length = 32,
+        max_length = 320,
         widget = forms.PasswordInput()
     )
     confirmpass = forms.CharField(
         required=True,
         label='Confirm Password',
-        max_length=32,
+        max_length=320,
         widget=forms.PasswordInput()
     )
 
@@ -64,7 +64,7 @@ class LoginForm(forms.Form):
     password = forms.CharField(
         required=True,
         label='Password',
-        max_length=32,
+        max_length=320,
         widget=forms.PasswordInput()
     )
 
@@ -118,6 +118,25 @@ class ChangePassForm(forms.Form):
         label='Confirm New Password',
         max_length=32,
         widget=forms.PasswordInput(),
+        # blank=False,
+        # null=False,
+    )
+
+class EmailCustomizeForm(forms.Form):
+    Subject = forms.CharField(
+        required=True,
+        label='Subject',
+        max_length=320,
+        # widget=forms.PasswordInput(),
+        # blank=False,
+        # null=False,
+    )
+
+    body = forms.CharField(
+        required=True,
+        label='Message Body',
+        max_length=3200,
+        # widget=forms.PasswordInput(),
         # blank=False,
         # null=False,
     )

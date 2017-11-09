@@ -21,6 +21,7 @@ urlpatterns = [
     url(r'^unauthenticated/', views.unauthentic,name='unauthentic'),
     url(r'^changepass/', views.ChangePass, name='ChangePass'),
     url(r'^register/', views.register,name='register'),
+    url(r'^customemail/', views.customemail ,name='customemail'),
     url(r'^forgotpass/', views.ForgotPass, name='ForgotPass'),
     # url(r'^login/$', auth_views.login,{'template_name':'homepage/LoginPage.html'}),
     # url(r'^logout/$', auth_views.logout, {'template_name':'homepage/index.html'}),
